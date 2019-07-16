@@ -1,0 +1,56 @@
+debug = false
+
+logLevel = "ERROR"
+defaultEntryPoints = ["https","http"]
+
+
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+
+  [entryPoints.https]
+  address = ":443"
+    [entryPoints.https.tls]
+
+  [entryPoints.admin]
+    address = ":8080"
+#    [entryPoints.admin.auth]
+#      [entryPoints.admin.auth.basic]
+#        users = [
+#          "admin:3nter-y0ur-PsW-h3re",
+#        ]
+
+
+[retry]
+
+[api]
+entryPoint = "admin"
+# debug = true
+dashboard = true
+
+[forwardingTimeouts]
+dialTimeout = "60s"
+
+[respondingTimeouts]
+idleTimeout = "360s"
+
+[docker]
+endpoint = "unix:///var/run/docker.sock"
+watch = true
+exposedByDefault = false
+
+[acme]
+email = "domains@yourdomain.at"
+storage = "acme.json"
+onHostRule = true
+# onDemand = false
+# caServer = "https://acme-staging-v02.api.letsencrypt.org/directory"
+entryPoint = "https"
+  [acme.httpChallenge]
+  entryPoint = "http"
+  delayBeforeCheck = 0
+
+
+
+
+

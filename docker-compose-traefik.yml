@@ -1,0 +1,57 @@
+version: '2'
+services:
+  traefik:
+    image: traefik:1.7-alpine
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./docker/traefik.toml:/traefik.toml
+      - ./docker/acme.json:/acme.json
+    networks:
+      - proxy
+      # proxy:
+      #   ipv4_address: <FIXED_IP_OF_PROXY>
+
+  apache:
+    image: typoheads/typo3-apache-php:7.2
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www/html/      
+    depends_on:
+      - db
+    labels:
+      - 'traefik.typo3.backend=typo3'
+      - 'traefik.typo3.frontend.rule=Host:<YOUR_DOMAIN>'
+      - 'traefik.typo3.frontend.redirect.entryPoint=https'
+      - 'traefik.typo3.frontend.entryPoints=http,https'
+      - 'traefik.port=80'
+      - 'traefik.enable=true'
+      - 'traefik.docker.network=proxy'
+    networks:
+      - typo3
+      - proxy
+
+  db:
+    image: mysql:5.7
+    restart: unless-stopped
+    volumes:
+      - ./mysql:/var/lib/mysql
+    command:
+      - --character-set-server=utf8
+      - --collation-server=utf8_unicode_ci
+    environment:
+      MYSQL_ROOT_PASSWORD: Y0UR-S3CURE-PSW
+      MYSQL_DATABASE: typo3
+      MYSQL_USER: typo3
+      MYSQL_PASSWORD: Y0UR-S3CURE-PSW
+    networks:
+      - typo3
+
+networks:
+  proxy:
+    external: true
+  typo3:
+    external: false

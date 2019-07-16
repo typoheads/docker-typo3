@@ -1,0 +1,44 @@
+version: '2'
+services:
+  solr:
+    image: solr:6
+    restart: unless-stopped
+    ports:
+      - 8983:8983
+    volumes:
+      - ./solr/cores:/opt/solr/server/solr/mycores
+      - ./solr/configsets:/opt/solr/server/solr/configsets
+    networks:
+      - typo3
+
+  apache:
+    image: typoheads/typo3-apache-php:7.2
+    restart: unless-stopped
+    ports:
+      - 80:80
+    volumes:
+      - ./:/var/www/html/      
+    depends_on:
+      - db
+    networks:
+      - typo3
+
+  db:
+    image: mysql:5.7
+    restart: unless-stopped
+    volumes:
+      - ./mysql:/var/lib/mysql
+    command:
+      - --character-set-server=utf8
+      - --collation-server=utf8_unicode_ci
+    environment:
+      MYSQL_ROOT_PASSWORD: Y0UR-S3CURE-PSW
+      MYSQL_DATABASE: typo3
+      MYSQL_USER: typo3
+      MYSQL_PASSWORD: Y0UR-S3CURE-PSW
+    networks:
+      - typo3
+
+networks:
+  typo3:
+    external: false

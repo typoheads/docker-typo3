@@ -1,0 +1,14 @@
+docker/traefik/acme.json
+mysql/
+vendor/
+var/
+public/*
+
+
+# Comment out to preserve essential
+# TYPO3 configuration files
+
+# !public/typo3conf/
+# public/typo3conf/*
+# !public/typo3conf/AdditionalConfiguration.php
+# !public/typo3conf/LocalConfiguration.php
