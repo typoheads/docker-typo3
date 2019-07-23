@@ -86,8 +86,11 @@ docker-compose -f docker-compose-mailhog.yml up -d
 
 
 * Configure TYPO3 in `AdditionalConfiguration.php`: 
-	`$GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport'] = 'smtp';`
-	`$GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_smtp_server'] = '<NAME_OF_SMTP_CONTAINER>';`
+
+```php
+$GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport'] = 'smtp';
+$GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_smtp_server'] = '<NAME_OF_SMTP_CONTAINER>';
+```
 
 
 ## Configuration
