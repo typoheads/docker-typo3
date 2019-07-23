@@ -18,7 +18,7 @@ FROM composer:1.8 AS composer-build
 WORKDIR /app
 COPY composer.lock .
 COPY composer.json .
-RUN composer install
+RUN composer install --no-dev
 
 
 
