@@ -17,12 +17,21 @@ docker-compose up -d
 
 ## Architecture
 
-Quickly spin up a working TYPO3 setup with `composer` and `docker-compose` and - when needed - add other docker services like `traefik`, `solr` or `smtp` to your stack. This project uses [typo3-apache-php](https://hub.docker.com/typoheads/typo3-apache-php) as a base image - a well-prepared and simple docker image for TYPO3 by including only the minimal requirements.
+Quickly spin up a working TYPO3 setup with `composer` and `docker-compose` and - when needed - add other docker services like `traefik`, `solr` or `smtp` to your stack. This project uses [typo3-apache-php](https://hub.docker.com/r/typoheads/typo3-apache-php) as a base image - a well-prepared and simple docker image for TYPO3 by including only the minimal requirements.
 
-The approach of this project is to avoid one bloated and opiniated `docker-compose.yml`-file, because requirements are different from project to project. You can clone this repo and test the different combinations of the provided `docker-compose`-files as described below an then adjust `docker-compose.yml` and `Dockerfile` to your specific requirements. 
+The approach of this project is to avoid a bloated and opiniated `docker-compose.yml`-file, because requirements are different from project to project. You can clone this repo and test the different combinations of the provided `docker-compose`-files as described below an then adjust `docker-compose.yml` to your specific requirements. 
 
-The basic idea for the development-workflow is to develop while having all files locally easily at hand. Files are bind-mounted into the corresponding docker containers. When the project is ready for production or a new release is planned, then adjust the provided `Dockerfile` and `docker build .` a docker image. Your files and setup will be included automatically in the resulting image (excluding mysql data of course). After build, push the image to your registry and run it on your production system. 
+The basic idea for the development-workflow is to develop while having all files locally easily at hand, be it on your local machine or a dedicated linux machine for development purposes. Files are bind-mounted into the corresponding docker containers. When the project is ready for production or a new release is planned, then adjust the provided `Dockerfile` and `docker build .` a docker image. Your files and setup will be included automatically in the resulting image (excluding mysql data of course). After build, push the image to a registry and run it on your production system. 
 
+## TYPO3 Basis
+
+Brings up a basic TYPO3 installation.
+
+```bash
+composer install
+chown -R www-data:www-data public/ var/
+docker-compose up -d
+```
 
 ## TYPO3 + Proxy/Let's Encrypt
 
@@ -47,8 +56,10 @@ Note: Unfortunately TYPO3 *needs the IP of the proxy* in its configuration. As o
 * Do `docker inspect <traefik-container>` and copy the `IPAddress` 
 * Insert fixed IP with `ipv4_address` in `docker-compose-traefik.yml`
 * Add IP to `AdditionalConfiguration.php`:
-	`$GLOBALS['TYPO3_CONF_VARS']['SYS']['reverseProxyIP'] = '<IP_OF_PROXY_CONTAINER>';`
 
+```php
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['reverseProxyIP'] = '<IP_OF_PROXY_CONTAINER>';
+```
 
 ## TYPO3 + Solr
 
@@ -81,7 +92,7 @@ docker-compose -f docker-compose-mailhog.yml up -d
 
 ## Configuration
 
-Finetune your installation by adjusting the included configuration files. Mount any of them into the corresponding container to take effect. 
+Finetune your installation by adjusting the included configuration files in `./docker`. Mount any of them into the corresponding container to take effect. 
 
 ### Apache / PHP
 
