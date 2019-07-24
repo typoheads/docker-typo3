@@ -9,13 +9,14 @@ Simple docker setup for TYPO3. Use it for development and production.
 
 
 ```bash
+git clone https://github.com/typoheads/docker-typo3.git && cd docker-typo3
 composer install
 chown -R www-data:www-data public/ var/
 docker-compose up -d
 ```
 
 
-## Architecture
+## Goals
 
 Quickly spin up a working TYPO3 setup with `composer` and `docker-compose` and - when needed - add other docker services like `traefik`, `solr` or `smtp` to your stack. This project uses [typo3-apache-php](https://hub.docker.com/r/typoheads/typo3-apache-php) as a base image - a well-prepared and simple docker image for TYPO3 by including only the minimal requirements.
 
@@ -28,6 +29,7 @@ The basic idea for the development-workflow is to develop while having all files
 Brings up a basic TYPO3 installation.
 
 ```bash
+git clone https://github.com/typoheads/docker-typo3.git && cd docker-typo3
 composer install
 chown -R www-data:www-data public/ var/
 docker-compose up -d
@@ -43,6 +45,7 @@ Prerequisites:
 
 
 ```bash
+git clone https://github.com/typoheads/docker-typo3.git && cd docker-typo3
 composer install
 chown -R www-data:www-data public/ var/
 touch docker/traefik/acme.json
@@ -66,6 +69,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['reverseProxyIP'] = '<IP_OF_PROXY_CONTAINER>'
 Spins up TYPO3 together with a solr server, uses [official solr image](https://hub.docker.com/_/solr/). 
 
 ```bash
+git clone https://github.com/typoheads/docker-typo3.git && cd docker-typo3
 composer install
 composer require apache-solr-for-typo3/solr
 chown -R www-data:www-data public/ var/
@@ -79,6 +83,7 @@ Brings up TYPO3 together with a simple SMTP-server, uses [mailhog image](https:/
 
 
 ```bash
+git clone https://github.com/typoheads/docker-typo3.git && cd docker-typo3
 composer install
 chown -R www-data:www-data public/ var/
 docker-compose -f docker-compose-mailhog.yml up -d
