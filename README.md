@@ -23,7 +23,7 @@ The approach of this project is to avoid a bloated and opiniated `docker-compose
 
 The basic idea for the development-workflow is to develop while having all files locally easily at hand, be it on your local machine or a dedicated linux machine for development purposes. Files are bind-mounted into the corresponding docker containers. When the project is ready for production or a new release is planned, then adjust the provided `Dockerfile` and `docker build .` a docker image. Your files and setup will be included automatically in the resulting image (excluding mysql data of course). After build, push the image to a registry and run it on your production system. 
 
-## TYPO3 Basis
+## TYPO3 Basic
 
 Brings up a basic TYPO3 installation.
 
@@ -93,7 +93,7 @@ $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_smtp_server'] = '<NAME_OF_SMTP_CO
 ```
 
 
-## Configuration
+## Advanced configuration
 
 Finetune your installation by adjusting the included configuration files in `./docker`. Mount any of them into the corresponding container to take effect. 
 
@@ -120,6 +120,9 @@ RUN cd /tmp && \
 
 COPY docker/mod_pagespeed/pagespeed.conf /etc/apache2/mods-available/
 ```
+
+Note: the included pagespeed configuration is battle tested, but highly opiniated. It will need adjustments based on your project requirements. In your final deployment, use volumes for the directories `/var/cache/mod_pagespeed` and `/var/log/pagespeed`. 
+
 
 ### MySQL
 
