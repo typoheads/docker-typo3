@@ -172,8 +172,7 @@ Note: if you require packages from a private repository (via vcs or packagist) y
 
 ```bash
 docker build -t your-image-name:tag \
-             --build-arg SSH_PRIVATE_KEY="$(cat /root/.ssh/id_rsa)" \
-             --build-arg KNOWN_HOSTS="$(cat /root/.ssh/known_hosts)" --no-cache .
+             --build-arg SSH_PRIVATE_KEY="$(cat /root/.ssh/id_rsa)" --no-cache .
 ```
 
 After build, push the image to your registry and pull the new release from production system.

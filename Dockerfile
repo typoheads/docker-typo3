@@ -5,11 +5,10 @@ FROM composer:1.8 AS composer-build
 # way to to accomplish this:
 # 
 # ARG SSH_PRIVATE_KEY
-# ARG KNOWN_HOSTS
 # RUN mkdir /root/.ssh/ && \
 #     echo "${SSH_PRIVATE_KEY}" > /root/.ssh/id_rsa && \
-#     echo "${KNOWN_HOSTS}" > /root/.ssh/known_hosts && \
-#     chmod 600 /root/.ssh/id_rsa
+#     chmod 600 /root/.ssh/id_rsa && \
+#     ssh-keyscan -H -p <PORT> <GIT_DOMAIN> >> ~/.ssh/known_hosts
 # 
 # Note: this method is safe only when using it in a multistage-
 #       Dockerfile, otherwise traces of ARG will be left in the image.
