@@ -1,6 +1,6 @@
 FROM composer:1.8 AS composer-build
 
-# If you plan to require packages from a private vcs/packagist,
+# If you plan to require packages from a private vcs or packagist,
 # you'll need the private key during builds. Here's the safe 
 # way to to accomplish this:
 # 
@@ -11,12 +11,12 @@ FROM composer:1.8 AS composer-build
 #     echo "${KNOWN_HOSTS}" > /root/.ssh/known_hosts && \
 #     chmod 600 /root/.ssh/id_rsa
 # 
-# Note: this method is only safe when using it in a multistage-
-#       Dockerfile, otherwise traces of ARG are left in the image.
+# Note: this method is safe only when using it in a multistage-
+#       Dockerfile, otherwise traces of ARG will be left in the image.
 
 
 WORKDIR /app
-COPY composer.* .
+COPY composer.* ./
 RUN composer install --no-dev
 
 
