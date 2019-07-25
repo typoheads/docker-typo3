@@ -1,6 +1,6 @@
 # Docker + TYPO3
 
-Simple docker setup for TYPO3. Use it for development and production.
+Simple docker setup for TYPO3. Serves as template for your projects in development and production. 
 
 -----
 
